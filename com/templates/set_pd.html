@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+{#                                          导航栏#}
+	<head>
+		<meta charset="utf-8" />
+		<title>Python Club</title>
+        {% load staticfiles %}
+		<link rel="stylesheet" href="{% static "css/normalize.css" %}"/>
+		<link rel="stylesheet" href="{% static "css/main.css" %}"/>
+	</head>
+	<body>
+		<div class="index-wrapper">
+			<!--header-->
+			<div class="header">
+				<div class="common">
+                    <a href="/">
+					    <h1 class="left">Python</h1>
+                    </a>
+					<div class="right">
+						<div class="search-content">
+                        <form class="search" action="/com/search/" method="post">
+							<span></span>
+							<input id="search-text" type="text" placeholder="搜索" />
+							<input type="submit" value="搜索" />
+						</form>
+						</div>
+                        {% if request.user.is_authenticated %}
+						<div class="blue"><a  href="/com/quiz">提问</a></div>
+                        <div class="people">
+							<a href="/com/user/">
+							    <img src="{% static "img/photo_01.jpg" %}" />
+                            </a>
+						</div>
+						<ul class="user-info">
+							<li><a href="/com/user/">{{ user.userprofile.username }}</a></li>
+							<li><a href="/com/setting/">设置</a></li>
+{#							<li><a href="">我的私信</a></li>#}
+							<li><a href="/com/logout/">退出</a></li>
+						</ul>
+                        {% else %}
+						<div class="login-btn">
+							<a href="/com/templates/login.html">登录</a> |
+							<a href="/com/templates/register.html">注册</a>
+						</div>
+                        {% endif %}
+
+					</div>
+				</div>
+			</div>
+			<!--header end-->
+			<!--main-->
+			<div class="main">
+				<div class="setting">
+					<ul class="setting-btn">
+{#						<li>信息设置</li>#}
+						<li>密码重置</li>
+				    </ul>
+				    <s></s>
+{#				    <div class="info-setting">#}
+{#				    	<div class="person-photo">#}
+{#					    	<h2 class="left">个人头像</h2>#}
+{#					    	<div class="left pho-right">#}
+{#					    		<div class="new-photo left">#}
+{#					    			<a href="">#}
+{#					    				<img src="{% static "img/girl.jpg" %}"  />#}
+{#					    			    <span class="hover"></span>#}
+{#					    			</a>#}
+{#					    		</div>#}
+{#					    		<div class="hint left">#}
+{#					    			<p>请上传个人头像 </p>#}
+{#	                                <p>最好是正方形，支持 JPG、PNG、GIF、BMP 格式，不要超过 1M。</p> #}
+{#					    		</div>#}
+{#					    	</div>#}
+{#					    </div>#}
+{#					    #}
+{#					    <div class="person-info">#}
+{#					    	<h2 class="left">个人信息</h2>#}
+{#                              <p>{{ msg }}</p>#}
+{#					    	<form action="" method="post">#}
+{#                                {% csrf_token %}#}
+{#					    		<ul class="left info-input">#}
+{#						    		<li>#}
+{#						    			<span>昵称: </span>#}
+{#						    			<input type="text" name="username" placeholder="请输入昵称"  />#}
+{#						    		</li>#}
+{#									<li>#}
+{#										<span>居住地: </span>#}
+{#										<input type="text" name="address" placeholder="请输入居住地"  />#}
+{#									</li>#}
+{#									<li>#}
+{#										<span>工作: </span>#}
+{#										<input type="text" name="job" placeholder="请输入工作"  />#}
+{#									</li>#}
+{#									<li>#}
+{#										<span>邮箱: </span>#}
+{#                                        {{ sf.em }}#}
+{#										<input type="text" name="em" placeholder="请输入邮箱"  />#}
+{#									</li>#}
+{#									<li>#}
+{#										<span>Q Q: </span>#}
+{#										<input type="text" name="QQ" placeholder="请输入QQ"  />#}
+{#									</li>#}
+{#									<li>#}
+{#										<span>简介: </span>#}
+{#										<textarea rows="3" cols="40" name="intro" placeholder="请输入个人简介..."></textarea>#}
+{#									</li>#}
+{#									<li><button>保 存</button></li>#}
+{#					    	   </ul>#}
+{#					    	</form>#}
+{#					    	#}
+{#					    </div>#}
+{#				    </div>#}
+                    <div class="pass-setting">
+                    	<h2 class="left">修改密码</h2>
+                        <p>{{ msg2 }}</p>
+                        <form  action="/com/set_pd/" method="post">
+                         {% csrf_token %}
+                    	<ul class="left modify">
+                    		<li>
+				    			<span>旧密码 </span>
+				    			<input name="old_pd" type="password" placeholder="请输入您的旧密码"  />
+				    			<span class="help">请输入您的旧密码</span>
+					    	</li>
+							<li>
+								<span>新密码 </span>
+								<input name="new_pd" type="password" placeholder="请输入您的新密码"  />
+								<span class="help">密码至少为6位字母或数字</span>
+							</li>
+							<li><button>保 存</button></li>
+                    	</ul>
+                        </form>
+                    </div>
+				</div>
+
+			</div>
+			<!--main end-->
+			<div class="footer">
+				<a href="">联系我 </a>  © 2016 fc 版权所有
+			</div>
+		</div>
+		<script type="text/javascript" src="{% static "js/jquery-1.8.3.min.js" %}"></script>
+		<script type="text/javascript" src="{% static "js/prefixfree.min.js" %}" ></script>
+		<script type="text/javascript" src="{% static "js/main.js" %}" ></script>
+	</body>
+</html>

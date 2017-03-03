@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+{#                                          导航栏#}
+	<head>
+		<meta charset="utf-8" />
+		<title>Python Club</title>
+        {% load staticfiles %}
+		<link rel="stylesheet" href="{% static "css/normalize.css" %}"/>
+		<link rel="stylesheet" href="{% static "css/main.css" %}"/>
+	</head>
+	<body>
+		<div class="index-wrapper">
+			<!--header-->
+			<div class="header">
+				<div class="common">
+                    <a href="/">
+					    <h1 class="left">Python</h1>
+                    </a>
+					<div class="right">
+						<div class="search-content">
+                        <form class="search" action="/com/search/" method="post">
+							<span></span>
+							<input id="search-text" type="text" placeholder="搜索" />
+							<input type="submit" value="搜索" />
+						</form>
+						</div>
+						<div class="blue"><a  href="/com/quiz">提问</a></div>
+
+                        {% if request.user.is_authenticated %}
+                        <div class="people">
+							<a href="/com/user/">
+							    <img src="{% static "img/photo_01.jpg" %}" />
+                            </a>
+						</div>
+						<ul class="user-info">
+							<li><a href="/com/user/">{{ user.username }}</a></li>
+							<li><a href="/com/setting/">设置</a></li>
+{#							<li><a href="">我的私信</a></li>#}
+							<li><a href="/com/logout/">退出</a></li>
+						</ul>
+                        {% else %}
+						<div class="login-btn">
+							<a href="/com/templates/login.html">登录</a> |
+							<a href="/com/templates/register.html">注册</a>
+						</div>
+                        {% endif %}
+					</div>
+				</div>
+			</div>
+			<!--header end-->
+			<!--main-->
+			<div class="main">
+				<!--quiz-->
+				<div class="quiz">
+					<div class="quiz-top"><a href="/">Python社区</a>  »  提问</div>
+
+                    <p>{{ msg }}</p>
+
+					<form action="" method="post" class="form-quiz">
+                        {% csrf_token %}
+                        {{ qf.non_field_errors }}
+                        <div id="question_title" class="question_title">
+{#                        {{ qf.title }}#}
+						<input name="title" type="text" placeholder="请输入问题标题" />
+                        </div>
+						<div class="quiz-content">
+{#                            {{ qf.content }}#}
+							<textarea rows="15" name="content" id="question_content" cols="70" class="form-quiz" placeholder="请输入问题描述..."></textarea>
+						    <span class="area-bottom">
+								<span class="left"></span>
+								<span class="right text-num">0</span>
+							</span>
+						</div>
+{#						<select>#}
+{#							<option value ="sports">运动</option>#}
+{#							<option value ="java">java</option>#}
+{#					    </select>#}
+					    <br/>
+					    <button class="form-quiz" type="submit" value="">提问</button>
+					</form>
+				</div>
+				<!--quiz end-->
+			</div>
+			<div class="footer">
+				<a href="">联系我 </a>  © 2016 fc 版权所有
+			</div>
+		</div>
+		<script type="text/javascript" src="{% static "js/jquery-1.8.3.min.js" %}"></script>
+		<script type="text/javascript" src="{% static "js/prefixfree.min.js" %}" ></script>
+		<script type="text/javascript" src="{% static "js/main.js" %}" ></script>
+	</body>
+</html>

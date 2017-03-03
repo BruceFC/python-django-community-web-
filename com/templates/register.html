@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Python Club</title>
+        {% load staticfiles %}
+		<link rel="stylesheet" href="{% static "css/normalize.css" %}"/>
+		<link rel="stylesheet" href="{% static "css/main.css" %}"/>
+	</head>
+	<body>
+		<div class="index-main">
+			<div class="wrapper">
+				<h1>Python社区</h1>
+				<h2>Share Your Knowledge With Other Pythonistas</h2>
+				<div class="content-tab">
+					<a href="/com/templates/register.html">
+                        <span class="selected">注册</span>
+                    </a>
+{#					<a href="/com/templates/login.html">#}
+{#                        <span class="selected">登录</span>#}
+{#                    </a>#}
+{#                    <span onclick="return jump1();">登录</span>#}
+				</div>
+				<div class="login-register">
+
+                    <script>
+                        function authentication(){
+                            var raw_username = document.getElementById("u").value;
+                                $.ajax({type:'POST', data: {'raw_username': raw_username}
+                            });
+                        }
+                    </script>
+
+                    <script type="text/javascript">
+                        function check(){
+                            var username = document.getElementById('u');
+                            var password1 = document.getElementById('p1');
+                            var password2 = document.getElementById('p2');
+                                if(username.value == ''){
+                                alert('帐号不能为空，请重新输入');
+                                username.select();
+                                }else if(password1.value == ''){
+                                    alert('密码1不能为空，请重新输入');
+                                    password1.select();
+                                }else if(password2.value == ''){
+                                    alert('密码2不能为空，请重新输入');
+                                    password2.select();
+                                }else if(password2.value != password1.value){
+                                    alert('两次密码不一致，请重新输入');
+                                    password1.select();
+                                }else{
+                                    return true;
+                                }
+                                return false;
+                        }
+                    </script>
+
+                    <!--------------------注册标签-------------------->
+{#                    {% if error %}#}
+                        <p>{{ msg }}</p>
+{#                    {% endif %}#}
+					<form class="content register-content" action="" method="post">
+                        {% csrf_token %}
+                        {{ rf.non_field_errors }}
+						<div class="import">
+                            <div>
+                            {{ rf.username.errors }}
+                            {{ rf.username }}
+							<input type="text" id="u" name="username" placeholder="姓名"/>
+                            </div>
+
+                            <div>
+                            {{ rf.password1.errors }}
+                            {{ rf.password1 }}
+							<input type="password" id="p1" name="password1" placeholder="密码(不少于6位)"/>
+                            </div>
+
+                            <div>
+                            {{ rf.password2.errors }}
+                            {{ rf.password2 }}
+						    <input type="password" id="p2" name="password2" placeholder="再次输入密码"/>
+                            </div>
+						</div>
+						<input class="btn" type="submit" value="注 册" onclick="return check()"/>
+
+						<div class="agree">
+							点击「注册」按钮，即代表你同意<a class="blue" href="">《知乎协议》</a>
+						</div>
+                        <div class="">
+							    <span>已有账号？
+                                    <a href="/com/templates/login.html">点击登录</a>
+                                </span>
+                        </div>
+					</form>
+
+                    <!--------------------登陆标签------------------->
+
+
+					<!--------------------结束------------------->
+
+				</div>
+			</div>
+			<div class="footer">
+				<a href="">联系我 </a>  © 2016 fc 版权所有
+			</div>
+		</div>
+		<script type="text/javascript" src="{% static "js/jquery-1.8.3.min.js" %}"></script>
+		<script type="text/javascript" src="{% static "js/prefixfree.min.js" %}" ></script>
+		<script type="text/javascript" src="{% static "js/main.js" %}" ></script>
+	</body>
+</html>

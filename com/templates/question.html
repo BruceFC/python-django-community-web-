@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+{#                                          导航栏#}
+	<head>
+		<meta charset="utf-8" />
+		<title>Python Club</title>
+        {% load staticfiles %}
+		<link rel="stylesheet" href="{% static "css/normalize.css" %}"/>
+		<link rel="stylesheet" href="{% static "css/main.css" %}"/>
+	</head>
+	<body>
+		<div class="index-wrapper">
+			<!--header-->
+			<div class="header">
+				<div class="common">
+                    <a href="/">
+					    <h1 class="left">Python</h1>
+                    </a>
+					<div class="right">
+						<div class="search-content">
+                        <form class="search" action="/com/search/" method="post">
+							<span></span>
+							<input id="search-text" type="text" placeholder="搜索" />
+							<input type="submit" value="搜索" />
+						</form>
+						</div>
+                        {% if request.user.is_authenticated %}
+						<div class="blue"><a  href="/com/quiz">提问</a></div>
+                        <div class="people">
+							<a href="/com/user/">
+							    <img src="{% static "img/photo_01.jpg" %}" />
+                            </a>
+						</div>
+						<ul class="user-info">
+							<li><a href="/com/user/">{{ user.username }}</a></li>
+							<li><a href="/com/setting/">设置</a></li>
+{#							<li><a href="">我的私信</a></li>#}
+							<li><a href="/com/logout/">退出</a></li>
+						</ul>
+                        {% else %}
+						<div class="login-btn">
+							<a href="/com/templates/login.html">登录</a> |
+							<a href="/com/templates/register.html">注册</a>
+						</div>
+                        {% endif %}
+
+					</div>
+				</div>
+			</div>
+			<!--header end-->
+			<!--main-->
+			<div class="main">
+				<div class="main-left">
+					<!--question-->
+					<div class="question">
+						<div class="question-top">
+							<div class="left">
+								<div class="question-type"><a href="">知道社区</a>  »  <a href="">{{ question.column }}</a></div>
+							    <h2>{{ question.title }}</h2>
+							    <p>
+							    	<a href="">{{ question.questioner }}</a> &nbsp;|&nbsp; {{ question.pub_date | date:"j M" }}
+							    </p>
+						    </div>
+						    <div class="right">
+{#							    <span>关注</span>#}
+							    <a href=""><img src="{% static "img/photo_01.jpg" %}"  /></a>
+						   </div>
+						</div>
+						<div class="question-center">
+							{{ question.content | safe }}
+						</div>
+                        <p>{{ msg }}</p>
+						<div class="question-bottom right">
+							<span class="ans-btn" flag=0>回答</span>
+                            {% if k == 1 %}
+                                <span style="background:url({% static "img/favor_fill.png" %}) no-repeat left center;background-size: contain;" >
+                                    <a href="" class="keep" u="{{ question.id }}">收藏 </a>
+                                </span>
+                            {% else %}
+                                <span style="background:url({% static "img/favor.png" %}) no-repeat left center;background-size: contain;">
+                                    <a href="" class="keep"  u="{{ question.id }}">收藏 </a>
+                                </span>
+                            {% endif %}
+						</div>
+						<form class="push" action="/com/{{ question.id }}/" method="post">
+                            {% csrf_token %}
+                            <div class="push-input">
+                                {{ af.answer_content }}
+								<textarea name="answer_content" rows="8" cols="93" placeholder="请输入回答内容..."></textarea>
+							</div>
+							<button class="" type="submit" value="">回答</button>
+						</form>
+					</div>
+					<!--question end-->
+					<!--answer-list-->
+					<div class="answer-list">
+						<div class="answer-top">
+							所有回答 [ {{ question.answer_num }} ]
+						</div>
+						<div class="ans">
+                            {% for answer in answers %}
+							<div class="answer">
+								<div class="photo">
+									<a href=""><img src="{% static "img/photo_01.jpg" %}"/></a>
+								</div>
+								<div class="answer-content">
+									<div class="person">
+										<div class="left">
+											<a href="">{{ answer.user }}</a>
+											<span>{{ answer.pub_date | date:"j M" }}</span>
+										</div>
+										<div class="right">楼</div>
+									</div>
+									<p class="answer-detail">{{ answer.content }}</p>
+									<p class="answer-bottom">
+										<span flag="0">评论</span>
+										<span>0</span>
+										<span>0</span>
+									</p>
+
+{#									<div class="comment-content">#}
+{#										<div class="push">#}
+{#											<div class="push-input">#}
+{#												<span class="shi"></span>#}
+{#												<span class="kong"></span>#}
+{#												<textarea rows="5" cols="70" placeholder="请输入评论内容..."></textarea>#}
+{#											</div>#}
+{#											<button>发布评论</button>#}
+{#										</div>#}
+{#										<div class="comment-list">#}
+{#											<div class="comment">#}
+{#												<div class="photo">#}
+{#													<a href=""><img src="{% static "img/photo_01.jpg" %}"  /></a>#}
+{#												</div>#}
+{#												<div class="comment-detail">#}
+{#													<div class="comment-top">#}
+{#														<a href="">评论作者名</a>#}
+{#											            <span>3天前</span>#}
+{#											            <a class="blue" href="">回复</a>#}
+{#													</div>#}
+{#													<div class="comment-center">#}
+{#														好好好#}
+{#													</div>#}
+{#												</div>#}
+{#											</div>#}
+{#										</div>#}
+{#									</div>#}
+								</div>
+						    </div>
+                            {% endfor %}
+
+{#						<div class="answer">#}
+{#							<div class="photo">#}
+{#								<a href=""><img src="{% static "img/photo_01.jpg" %}"  /></a>#}
+{#							</div>#}
+{#							<div class="answer-content">#}
+{#								<div class="person">#}
+{#									<div class="left">#}
+{#										<a href="">回答作者名</a>#}
+{#										<span>3天前</span>#}
+{#									</div>#}
+{#									<div class="right">2楼</div>#}
+{#								</div>#}
+{#								<p class="answer-detail">回答内容回答内容回答内容回答内容回答内容回答内容回答内容</p>#}
+{#								<p class="answer-bottom">#}
+{#									<span flag="0">评论</span>#}
+{#									<span>0</span>#}
+{#									<span>0</span>#}
+{#								</p>#}
+{#								<div class="comment-content">#}
+{#									<div class="push">#}
+{#										<div class="push-input">#}
+{#											<span class="shi"></span>#}
+{#											<span class="kong"></span>#}
+{#											<textarea rows="5" cols="70" placeholder="请输入评论内容..."></textarea>#}
+{#										</div>#}
+{#										<button>发布评论</button>#}
+{#									</div>#}
+{#									<div class="comment-list">#}
+{#										<div class="comment">#}
+{#											<div class="photo">#}
+{#												<a href=""><img src="{% static "img/photo_01.jpg" %}"  /></a>#}
+{#											</div>#}
+{#											<div class="comment-detail">#}
+{#												<div class="comment-top">#}
+{#													<a href="">评论作者名</a>#}
+{#										            <span>3天前</span>#}
+{#										            <a class="blue" href="">回复</a>#}
+{#												</div>#}
+{#												<div class="comment-center">#}
+{#													好好好#}
+{#												</div>#}
+{#											</div>#}
+{#										</div>#}
+{#									</div>#}
+{#								</div>#}
+{#							</div>#}
+{#						</div>#}
+						</div>
+                        <div class="morecomment">更多评论 ∨</div>
+					</div>
+					<!--answer-list end-->
+				</div>
+				
+				<!--problem-type-->
+				<div class="problem-type">
+					<h2>所有问题分类</h2>
+					<div class="type">
+						<h3><a href="">WEB开发</a></h3>
+						<div class="detail-type">
+							<a href="">bottle</a>
+							<a href="">tornado </a>
+							<a href="">Redis</a>
+							<a href="">IE</a>
+							<a href="">NoSql</a>
+							<a href="">DATABASE</a>
+							<a href="">MQ</a>
+							<a href="">Bootstrap</a>
+							<a href="">NGINX</a>
+							<a href="">js</a>
+							<a href="">其他Web框架 </a>
+							<a href="">peewee</a>
+							<a href="">web工具</a>
+							<a href="">NoSql</a>
+							<a href="">Git</a>
+							<a href=""> MongoDB</a>
+							<a href="">zookeeper</a>         
+						</div>                
+					</div>
+					<div class="type">
+						<h3><a href="">WEB开发</a></h3>
+						<div class="detail-type">
+							<a href="">bottle</a>
+							<a href="">tornado </a>
+							<a href="">Redis</a>
+							<a href="">IE</a>
+							<a href="">NoSql</a>
+							<a href="">DATABASE</a>
+							<a href="">MQ</a>
+							<a href="">Bootstrap</a>
+							<a href="">NGINX</a>
+							<a href="">js</a>
+							<a href="">其他Web框架 </a>
+							<a href="">peewee</a>
+							<a href="">web工具</a>
+							<a href="">NoSql</a>
+							<a href="">Git</a>
+							<a href=""> MongoDB</a>
+							<a href="">zookeeper</a>         
+						</div>                
+					</div>
+				</div>
+				<!--problem-type end-->
+			</div>
+			<div class="footer">
+				<a href="">联系我 </a>  © 2016 fc 版权所有
+			</div>
+		</div>
+		<script type="text/javascript" src="{% static "js/jquery-1.8.3.min.js" %}"></script>
+		<script type="text/javascript" src="{% static "js/prefixfree.min.js" %}" ></script>
+		<script type="text/javascript" src="{% static "js/main.js" %}" ></script>
+
+            <script>
+            $(document).ready(function() {
+                var aKeep = $('.keep');
+                aKeep.on('click',function(){
+                    var that = $(this);
+                    $.ajax({
+                        type: "POST",
+                        data: {},
+                        url: "http://127.0.0.1:8000/com/"+that.attr('u')+"/q_keep/", //后台处理函数的url
+                        cache: false,
+                        dataType: "html",
+                        success: function (result) {
+                            if(result == 1){
+                                that.parent().css({
+                                    'background' : 'url(../../static/img/favor.png) no-repeat',
+                                    'background-size' : 'contain'
+                                });
+                            }else{
+                                that.parent().css({
+                                    'background' : 'url(../../static/img/favor_fill.png) no-repeat',
+                                    'background-size' : 'contain'
+                                });
+                            }
+                            that.html();
+                        },
+                        error: function () {
+                            alert("something wrong");
+                        }
+                    });
+                    return false;
+                });
+            });
+        </script>
+
+	</body>
+</html>

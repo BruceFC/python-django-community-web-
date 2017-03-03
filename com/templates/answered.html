@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+{#                                          导航栏#}
+	<head>
+		<meta charset="utf-8" />
+		<title>Python Club</title>
+        {% load staticfiles %}
+		<link rel="stylesheet" href="{% static "css/normalize.css" %}"/>
+		<link rel="stylesheet" href="{% static "css/main.css" %}"/>
+	</head>
+	<body>
+		<div class="index-wrapper">
+			<!--header-->
+			<div class="header">
+				<div class="common">
+                    <a href="/">
+					    <h1 class="left">Python</h1>
+                    </a>
+					<div class="right">
+						<div class="search-content">
+                        <form class="search" action="/com/search/" method="post">
+							<span></span>
+							<input id="search-text" type="text" placeholder="搜索" />
+							<input type="submit" value="搜索" />
+						</form>
+						</div>
+                        {% if request.user.is_authenticated %}
+						<div class="blue"><a  href="/com/quiz">提问</a></div>
+                        <div class="people">
+							<a href="/com/user/">
+							    <img src="{% static "img/photo_01.jpg" %}" />
+                            </a>
+						</div>
+						<ul class="user-info">
+							<li><a href="/com/user/">{{ user.userprofile.username }}</a></li>
+							<li><a href="/com/setting/">设置</a></li>
+{#							<li><a href="">我的私信</a></li>#}
+							<li><a href="/com/logout/">退出</a></li>
+						</ul>
+                        {% else %}
+						<div class="login-btn">
+							<a href="/com/templates/login.html">登录</a> |
+							<a href="/com/templates/register.html">注册</a>
+						</div>
+                        {% endif %}
+
+					</div>
+				</div>
+			</div>
+			<!--header end-->
+			<!--main-->
+			<div class="main">
+				<!--collection-left-->
+				<div class="collection-left">
+					<div class="question-type"><a href="/">主页</a>  »  回答列表</div>
+
+                    {% for answer in person_answered_list %}
+					<div class="problem">
+						<div class="photo">
+							<a href=""><img src="{% static "img/photo_01.jpg" %}"  /></a>
+						</div>
+						<div class="problem-content">
+							<span>来自分类：<a href="">{{ answer.question.column }}</a></span>
+							<h2><a href="/com/{{ answer.question.id }}">{{ answer.question.title }}</a></h2>
+							<p><a href="/com/{{ answer.question.id }}">我的回答：{{ answer.content|truncatechars_html:80 | safe }}</a></p>
+							<div class="problem-bottom">
+								<span>{{ answer.question.keep_num }}收藏</span>
+								<span><a href="/com/{{ answer.question.id }}">{{ answer.question.answer_num }}回答</a></span>
+								<span>作者：{{ answer.question.questioner }}</span>
+								<span>{{ answer.question.pub_date | date:"j M" }}</span>
+							</div>
+						</div>
+                        <a href="/com/{{ answer.id }}/answer_del/"><button class="delete-btn">×</button></a>
+					</div>
+                    {% endfor %}
+				</div>
+				<!--collection-left end-->
+				<div class="collection-right">
+					<!--user-right-->
+                    <div class="user-right">
+                        <div class="username">用户名：{{ user.userprofile.username }}</div>
+                        <ul class="xiaoxi">
+                            <li>
+                                <a href="/com/keep_page/">
+                                    <span class="num">{{ user.userprofile.keep_num }}</span>
+                                    <span>收藏问题</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/com/answered_page/">
+                                    <span class="num">{{ user.userprofile.answered_num }}</span>
+                                    <span>回答问题</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/com/my_quized/">
+                                    <span class="num">{{ user.userprofile.quized_num }}</span>
+                                    <span>我的问题</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="weidu"><a href="">0条未读消息</a></div>
+                    </div>
+					<!--user-right end-->
+					<!--problem-type-->
+				<div class="problem-type">
+					<h2>所有问题分类</h2>
+					<div class="type">
+						<h3><a href="">WEB开发</a></h3>
+						<div class="detail-type">
+							<a href="">bottle</a>
+							<a href="">tornado </a>
+							<a href="">Redis</a>
+							<a href="">IE</a>
+							<a href="">NoSql</a>
+							<a href="">DATABASE</a>
+							<a href="">MQ</a>
+							<a href="">Bootstrap</a>
+							<a href="">NGINX</a>
+							<a href="">js</a>
+							<a href="">其他Web框架 </a>
+							<a href="">peewee</a>
+							<a href="">web工具</a>
+							<a href="">NoSql</a>
+							<a href="">Git</a>
+							<a href=""> MongoDB</a>
+							<a href="">zookeeper</a>
+						</div>
+					</div>
+					<div class="type">
+						<h3><a href="">WEB开发</a></h3>
+						<div class="detail-type">
+							<a href="">bottle</a>
+							<a href="">tornado </a>
+							<a href="">Redis</a>
+							<a href="">IE</a>
+							<a href="">NoSql</a>
+							<a href="">DATABASE</a>
+							<a href="">MQ</a>
+							<a href="">Bootstrap</a>
+							<a href="">NGINX</a>
+							<a href="">js</a>
+							<a href="">其他Web框架 </a>
+							<a href="">peewee</a>
+							<a href="">web工具</a>
+							<a href="">NoSql</a>
+							<a href="">Git</a>
+							<a href=""> MongoDB</a>
+							<a href="">zookeeper</a>
+						</div>
+					</div>
+				</div>
+				<!--problem-type end-->
+				</div>
+
+			</div>
+			<div class="footer">
+				<a href="">联系我 </a>  © 2016 fc 版权所有
+			</div>
+		</div>
+		<script type="text/javascript" src="{% static "js/jquery-1.8.3.min.js" %}"></script>
+		<script type="text/javascript" src="{% static "js/prefixfree.min.js" %}" ></script>
+		<script type="text/javascript" src="{% static "js/main.js" %}" ></script>
+	</body>
+</html>

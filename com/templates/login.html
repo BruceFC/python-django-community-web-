@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Python Club</title>
+        {% load staticfiles %}
+		<link rel="stylesheet" href="{% static "css/normalize.css" %}"/>
+		<link rel="stylesheet" href="{% static "css/main.css" %}"/>
+	</head>
+	<body>
+		<div class="index-main">
+			<div class="wrapper">
+				<h1>Python社区</h1>
+				<h2>Share Your Knowledge With Other Pythonistas</h2>
+				<div class="content-tab">
+{#					<a href="/com/templates/register.html">#}
+{#                        <span>注册</span>#}
+{#                    </a>#}
+					<a href="/com/templates/login.html">
+                        <span class="selected">登录</span>
+                    </a>
+{#                    <span onclick="return jump1();">登录</span>#}
+				</div>
+				<div class="login-register">
+
+                    <script>
+                        function authentication(){
+                            var raw_username = document.getElementById("username").value;
+                                $.ajax({type:'POST', data: {'raw_username': raw_username}
+                            });
+                        }
+                    </script>
+
+                    <script type="text/javascript">
+                        function check(){
+                            var username = document.getElementById('u');
+                            var password = document.getElementById('p');
+                                if(username.value == ''){
+                                alert('帐号不能为空，请重新输入');
+                                username.select();
+                                }else if(password.value == ''){
+                                    alert('密码不能为空，请重新输入');
+                                    password.select();
+                                }else{
+                                    return true;
+                                }
+                                return false;
+                        }
+                    </script>
+
+                    <!--------------------注册标签-------------------->
+
+
+                    <!--------------------登陆标签------------------->
+{#                    {% if error %}#}
+                        <p>{{ error }}</p>
+                        <p>{{ s }}</p>
+{#                    {% endif %}#}
+					<form class="form-control" action="" method="post">
+                        {% csrf_token %}
+                        {{ lf.non_field_errors }}
+						<div class="import">
+                            <div>
+                            {{ lf.username }}
+							<input type="text" id="u" name="username" placeholder="用户名"/>
+                            </div>
+                            <div>
+                            {{ lf.password }}
+						    <input type="password" id="p" name="password" placeholder="密码"/>
+                            </div>
+						</div>
+						<input class="btn" type="submit" value="登 录" onclick="return check()"/>
+
+						<div class="remember-content">
+							<div class="left">
+							    <input id="remember" type="checkbox" name="remember" value="remember"/>
+							    <label for="remember">记住我</label>
+                            </div>
+						    <div class="right">
+							    <span>没有账户？
+                                    <a href="/com/templates/register.html">点击注册</a>
+                                </span>
+						    </div>
+						</div>
+						<div class="社交">
+						    <span class="text">社交账号登录</span>
+						    <span class="link"><a href=""></a><a href=""></a><a href=""></a></span>
+					    </div>
+					</form>
+
+					<!--------------------结束------------------->
+
+				</div>
+			</div>
+			<div class="footer">
+				<a href="">联系我 </a>  © 2016 fc 版权所有
+			</div>
+		</div>
+		<script type="text/javascript" src="{% static "js/jquery-1.8.3.min.js" %}"></script>
+		<script type="text/javascript" src="{% static "js/prefixfree.min.js" %}" ></script>
+		<script type="text/javascript" src="{% static "js/main.js" %}" ></script>
+	</body>
+</html>
